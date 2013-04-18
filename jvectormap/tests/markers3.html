@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Maps</title>
+  <link rel="stylesheet" media="all" href="../jquery-jvectormap.css"/>
+  <style>
+    ul {
+      padding: 0;
+      list-style: none;
+    }
+  </style>
+
+  <!-- jvectormap includes //-->
+  //<script src="assets/jquery-1.8.2.js"></script>
+  <script src="../jquery-jvectormap.js"></script>
+  <script src="../jquery-mousewheel.js"></script>
+
+  <script src="../lib/jvectormap.js"></script>
+
+  <script src="../lib/abstract-element.js"></script>
+  <script src="../lib/abstract-canvas-element.js"></script>
+  <script src="../lib/abstract-shape-element.js"></script>
+
+  <script src="../lib/svg-element.js"></script>
+  <script src="../lib/svg-group-element.js"></script>
+  <script src="../lib/svg-canvas-element.js"></script>
+  <script src="../lib/svg-shape-element.js"></script>
+  <script src="../lib/svg-path-element.js"></script>
+  <script src="../lib/svg-circle-element.js"></script>
+
+  <script src="../lib/vml-element.js"></script>
+  <script src="../lib/vml-group-element.js"></script>
+  <script src="../lib/vml-canvas-element.js"></script>
+  <script src="../lib/vml-shape-element.js"></script>
+  <script src="../lib/vml-path-element.js"></script>
+  <script src="../lib/vml-circle-element.js"></script>
+
+  <script src="../lib/vector-canvas.js"></script>
+  <script src="../lib/simple-scale.js"></script>
+  <script src="../lib/ordinal-scale.js"></script>
+  <script src="../lib/numeric-scale.js"></script>
+  <script src="../lib/color-scale.js"></script>
+  <script src="../lib/data-series.js"></script>
+  <script src="../lib/proj.js"></script>
+  <script src="../lib/world-map.js"></script>
+  
+  <script  src="../maps/jquery-jvectormap-world-mill-en.js"></script>
+  <script  src="../maps/gdpData.js"></script>
+  
+  <!-- DHTMLX includes //-->
+
+  <link rel="STYLESHEET" type="text/css" href="../../dhtmlx/dhtmlxtree.css">
+  <script  src="../../dhtmlx/dhtmlxcommon.js"></script>
+  <script  src="../../dhtmlx/dhtmlxtree.js"></script>
+  <script  src="../../dhtmlx/ext/dhtmlxtree_json.js"></script>
+  
+    <link rel="STYLESHEET" type="text/css" href="../../dhtmlx/dhtmlxlayout.css">
+    <link rel="STYLESHEET" type="text/css" href="../../dhtmlx/skins/dhtmlxlayout_dhx_skyblue.css">
+    <link rel="STYLESHEET" type="text/css" href="../../dhtmlx/skins/dhtmlxtoolbar_dhx_skyblue.css">
+  <script  src="../../dhtmlx/dhtmlxcontainer.js"></script>
+  <script  src="../../dhtmlx/dhtmlxlayout.js"></script>
+  <script  src="../../dhtmlx/dhtmlxtoolbar.js"></script>
+  
+           
+  <script  src="../../stdlib/stdlib_array.js"></script>
+
+
+  <script>
+    $(function(){
+      
+      // Map init
+
+      var map = new jvm.WorldMap({
+        container: $('.map'),
+        map: 'world_mill_en',
+        regionsSelectable: true,
+        //backgroundColor: '#CAEBF9',
+        series: {
+          regions: [{
+            scale: ['#C8C8C8','#6C6C6C'], //['#C8EEFF', '#0071A4'],
+            normalizeFunction: 'polynomial',
+            values: gdpData
+          }]
+        },
+        regionStyle: {
+	    initial: {
+	      fill: 'white',
+               "fill-opacity": 0.8
+	    },
+	    selected: {
+	      fill: '#F4A582',
+              "fill-opacity": 1,
+                  "stroke-width": 1,
+                  "stroke-opacity": 1
+	    }
+	},
+        onRegionLabelShow: function(event, label, code){
+          label.html(label.html()+' (modified)');
+        },
+        onRegionOver: function(event, code){
+          console.log('region-over', code, map.getRegionName(code));
+        },
+        onRegionOut: function(event, code){
+          console.log('region-out', code);
+        },
+        onRegionClick: function(event, code){
+          console.log('region-click', code);
+        },
+        onRegionSelected: function(event, code, isSelected, selectedRegions){
+          syncTree(code, isSelected);
+        }
+      });
+
+
+    // DHTMLX : tree and toolbars
+
+       //dhtmlx.image_path='../../dhtmlx/imgs';
+        var treeToolbar = new dhtmlXToolbarObject('tree_tools');
+	//var treeToolbar = Territory.attachToolbar();
+	treeToolbar.setIconsPath('../../dhtmlx/imgs/dhxtoolbar_dhx_skyblue');	
+	treeToolbar.loadXMLString('<toolbar><item type="text" id="button_text_3" text="Search:" /><item type="buttonInput" id="button_input_1" /><item type="button" id="button_normal_1" text="Next" img="" imgdis="" /><item type="button" id="button_normal_5" text="Prev" /><item type="separator" id="button_separator_1" title="" /><item type="text" id="button_text_5" text="        " /><item type="button" id="expand_all" text="++" /><item type="button" id="collapse_all" text="- -" img="" imgdis="" /></toolbar>', function(){});
+
+        
+        treeMap = new dhtmlXTreeObject("treeboxbox_tree2", "100%", "100%", 0);
+        //tree =  Territory.attachTree();
+	treeMap.setSkin("dhx_skyblue");
+	treeMap.setImagePath("../../dhtmlx/imgs/csh_bluebooks/");
+	treeMap.enableCheckBoxes(1);
+	treeMap.enableThreeStateCheckboxes(true);
+        //treeMap.enableKeyboardNavigation(true);
+        treeMap.loadJSArrayFile("countries-sgr.js");
+        
+        function syncTree(id, bol) {
+            treeMap.setCheck(id, bol);
+        }
+        
+        function checkevt(code, state){
+		//alert(id+", children:"+treeMap.hasChildren(id));
+                if ((treeMap.hasChildren(code) == 0) && (state == 1)){   // Countries         
+                      try {
+                          map.setSelectedRegions(code);
+                      } catch(e) {
+                        alert("Error in selecting country in map:"+code+" error:"+e);
+                      }
+                }
+                else { // Region
+                    var listChecked = (treeMap.getAllChecked()).split(",");
+                    var listLeafs = (treeMap.getAllChildless()).split(",");
+                    var strList = listChecked.intersect(listLeafs);
+                    map.clearSelectedRegions();
+                    map.setSelectedRegions(strList);
+                }
+        }
+        treeMap.setOnCheckHandler(checkevt);
+        
+        // Search toolbar
+        treeToolbar.attachEvent("onEnter", function(id, value) {
+          alert("<b>get PRO!! onEnter event</b> input(" + id + ")'s value was changed to " + value);
+          //treeMap.findItem(value,0,1);
+        });
+        treeToolbar.attachEvent("onClick", function(id) {
+          //alert("<b>onClick event</b> input(" + id + ")'");
+          if( id == 'expand_all') {
+            treeMap.openAllItems("WW_");
+          }
+          else if( id == 'collapse_all') {
+            treeMap.closeAllItems("WW_");
+            treeMap.openItem("WW_");
+          }
+        });
+
+    });
+  </script>
+</head>
+<body>
+
+<table>
+  <tr>
+    <td>
+      <div id="tree_tools" style="width:auto; border :1px solid Silver; overflow:auto; height:27px"></div>
+      <div id="treeboxbox_tree2" style="width:300px; height:373px; background-color:#FEFFFE;border :1px solid Silver; overflow:auto;"></div>
+    </td>
+    <td>
+      <div class="map" style="width: 800px; height: 400px; border :1px solid Silver"></div>
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

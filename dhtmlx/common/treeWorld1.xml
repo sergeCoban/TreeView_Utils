@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tree id="0">
+    <item call="1" id="WW" im0="tombs.gif" im1="tombs.gif"
+        im2="iconSafe.gif" open="1" select="1" text="World Wide">
+        <item id="WW_EMEA" im0="book_titel.gif" im1="book.gif"
+            im2="book_titel.gif" text="EMEA">
+            <item id="EMEA_EUROPE" im0="book_titel.gif" im1="book.gif"
+                im2="book_titel.gif" text="Europe">
+                <item id="FR" im0="book_titel.gif" im1="book.gif"
+                    im2="book_titel.gif" text="France"></item>
+                <item id="ES" im0="book_titel.gif" im1="book.gif"
+                    im2="book_titel.gif" text="Spain"/>
+                <item id="IT" im0="book_titel.gif" im1="book.gif"
+                    im2="book_titel.gif" text="Italy"></item>
+            </item>
+            <item id="EMEA_MIDDLEE" im0="book_titel.gif" im1="book.gif"
+                im2="book_titel.gif" text="Middle East"/>
+            <item Id="EMEA_AFRICA" im0="book_titel.gif" im1="book.gif"
+                im2="book_titel.gif" text="Africa"/>
+        </item>
+        <item id="WW_AMER" im0="book_titel.gif" im1="book.gif"
+            im2="book_titel.gif" text="Americas">
+            <item id="AMER_NORTH" im0="book_titel.gif" im1="book.gif"
+                im2="book_titel.gif" text="North America">
+                <item id="US" im0="book_titel.gif" im1="book.gif"
+                    im2="book_titel.gif" text="United States of America"></item>
+                <item id="CA" im0="book_titel.gif" im1="book.gif"
+                    im2="book_titel.gif" text="Canada"/>
+            </item>
+            <item id="AMER_SOUTH" im0="book_titel.gif" im1="book.gif"
+                im2="book_titel.gif" text="South America"/>
+            <item Id="AMER_CENTR" im0="book_titel.gif" im1="book.gif"
+                im2="book_titel.gif" text="Central America"/>
+        </item>
+    </item>
+</tree>

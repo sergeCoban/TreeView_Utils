@@ -1,0 +1,19 @@
+<?xml encoding="UTF-8"?>
+
+<!ELEMENT tree (item)+>
+<!ATTLIST tree
+  xmlns CDATA #FIXED ''
+  id CDATA #REQUIRED
+  radio CDATA #IMPLIED>
+
+<!ELEMENT item (item)*>
+<!ATTLIST item
+  xmlns CDATA #FIXED ''
+  call CDATA #IMPLIED
+  id NMTOKEN #REQUIRED
+  im0 NMTOKEN #REQUIRED
+  im1 NMTOKEN #REQUIRED
+  im2 NMTOKEN #REQUIRED
+  open CDATA #IMPLIED
+  select CDATA #IMPLIED
+  text CDATA #REQUIRED>
