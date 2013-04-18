@@ -38,7 +38,7 @@ $installdefs = array(
 	'mkdir' => array(
 					array('path' => "custom/include/javascript/dhtmlx"),
 					array('path' => "custom/include/javascript/jvectormap"),
-					array('path' => "custom/include/javascript/stdlib"),
+					array('path' => "custom/include/javascript/stdlib")
 				),
 	'copy'	=> array(
 					array(
@@ -51,10 +51,9 @@ $installdefs = array(
 					),
 					array(
 						'from' 	=> '<basepath>/stdlib',
-						'to'	=> 'modules/custom/include/javascript/stdlib'
-					),					
-				)
-						
+						'to'	=> 'custom/include/javascript/stdlib'
+					)
+				)					
 	);
 			
 ?>
